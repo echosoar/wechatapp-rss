@@ -1,0 +1,103 @@
+.left {
+  position: fixed;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  padding: 0 10px;
+  padding-top: 30px;
+  width: 30%;
+  height: 100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  border-right: 1px solid #f5f5f5;
+}
+.right {
+  position: relative;
+  width: 70%;
+  margin-left: 30%;
+  box-sizing: border-box;
+  padding: 0 10px;
+  padding-top: 30px;
+}
+.title {
+  position: absolute;
+  top: 0;
+  font-size: 13px;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+}
+.category {
+  width: 100%;
+  height: 100%;
+  
+}
+.categoryItem {
+  margin-bottom: 10px;
+  text-align: center;
+  border-radius: 3px;
+  height: 35px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #a3a3a3;
+  background: #f2f2f2;
+  line-height: 35px;
+  font-size: 12px;
+}
+.categoryItemSelected {
+  color: #ffffff;
+  background: #d6ba8b;
+}
+
+.originItem {
+  margin-bottom: 10px;
+  border-radius: 3px;
+  background: #f5f5f5;
+  padding: 10px;
+}
+.originTitle {
+  font-size: 13px;
+  color: #333333;
+  font-weight: bold;
+  line-height: 24px;
+}
+.originDescription {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #999999;
+  word-break: break-all;
+  line-height: 18px;
+}
+.originInfoItem {
+  width: 49%;
+  vertical-align: top;
+  margin-top: 2%;
+  margin-right: 2%;
+  display: inline-block;
+  height: 32px;
+  background: #fff;
+  border-radius: 3px;
+  font-size: 10px;
+  color: #999;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 32px;
+}
+.originInfoItem2 {
+  margin-right: 0;
+}
+.addOrigin {
+  display: block;
+  text-align: center;
+  padding: 30px 0;
+  line-height: 20px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: #99c;
+  background: #f2f2f2;
+  border-radius: 3px;
+  cursor: pointer;
+}

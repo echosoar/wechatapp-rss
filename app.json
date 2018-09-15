@@ -1,0 +1,36 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/index/add",
+    "pages/index/origin",
+    "pages/index/mine",
+    "pages/logs/logs",
+    "pages/index/read",
+    "pages/index/redirect"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "RSS极速阅读器",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#000000",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "信息流",
+        "iconPath": "/static/feedUnselected.png",
+        "selectedIconPath": "/static/feed.png"
+      },
+      {
+        "pagePath": "pages/index/origin",
+        "text": "RSS源",
+        "iconPath": "/static/rssUnselected.png",
+        "selectedIconPath": "/static/rss.png"
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+<!--index.wxml-->
+<view class="container">
+  <scroll-view scroll-x class="category">
+    <view 
+      wx:for="{{collectList}}"
+      wx:key="collectListHome{{index}}"
+      class="{{index == nowCollectIndex ? 'categoryItem categoryItemSelected' : 'categoryItem'}}"
+      bindtap="collectTap"
+      data-index="{{index}}"
+      >
+      {{item.name}}
+    </view>
+  </scroll-view>
+  <view class="refresh" wx:if="{{!isLoading && collectList[nowCollectIndex].childOrigin.length}}">
+    <image src="/static/refresh.png" class="refreshImage" bindtap="refreshTap"></image>
+  </view>
+  <view wx:if="{{list.length}}" class="list" wx:for="{{list}}" wx:key="listHome{{index}}">
+    <view class="dayTime">{{item.date[0]}}年{{item.date[1]}}月{{item.date[2]}}日</view>
+    <view class="item" wx:for="{{item.child}}" wx:key="listHomeChild{{index}}">
+      <view class="itemTime">{{item.timeMap[3]}}:{{item.timeMap[4]}}</view>
+      <view class="itemLine"></view>
+      <navigator url="{{'/pages/index/read?origin=' + item.originId + '&oneId=' + item.oneId}}" hover-class="nohover">
+        <view class="itemTitle">{{ item.title || '暂无内容标题'}}</view>
+      </navigator>
+      
+      <view class="itemImgList" wx:if="{{item.data.imgs.length}}">
+        <view class="itemImgItem" wx:for="{{[1, 2, 3]}}" wx:for-item="i" wx:key="listHomeChildImg{{i}}" wx:if="{{item.data.imgs[i]}}">
+          <image mode="aspectFill" src="{{item.data.imgs[i].img}}" class="itemImg" bindtap="viewImg" data-src="{{item.data.imgs[i].large || item.data.imgs[i].img}}" data-imgs="{{item.data.imgs}}"></image>
+        </view>
+      </view>
+      <view class="itemOrigin">来源: {{ item.origin }}</view>
+    </view>
+  </view>
+  <navigator url="{{'/pages/index/add?category=' + nowCollectIndex}}" wx:if="{{!collectList[nowCollectIndex].childOrigin.length}}" hover-class="nohover">
+    <view class="noOrigin">
+      当前分类暂无RSS源，点击去添加
+    </view>
+  </navigator>
+</view>

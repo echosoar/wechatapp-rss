@@ -1,0 +1,11 @@
+<view class="article">
+  <view class="title">{{ item.title }}</view>
+  <view class="info">{{item.timeMap[1]}}/{{item.timeMap[2]}} {{item.timeMap[3]}}:{{item.timeMap[4]}} {{item.origin}}</view>
+  <view class="content">
+    <view wx:for="{{item.data.text}}" wx:for-item="para">
+      <view wx:if="{{para.t == 'text'}}" class="content-text">{{para.value}}</view>
+      <image mode="widthFix" wx:if="{{para.t == 'image'}}" src="{{para.value.img }}" class="content-image"></image>
+    </view>
+    <image wx:for="{{item.data.imgs}}" wx:for-item="para" mode="widthFix" src="{{para.img }}" class="content-image"></image>
+  </view>
+</view>

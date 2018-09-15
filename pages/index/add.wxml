@@ -1,0 +1,31 @@
+<!--pages/index/add.wxml-->
+<view wx:if="{{!loading}}">
+  <view class="formItem formItemRightHave">
+    <view class="formLabel">分类</view>
+    <picker bindchange="categoryChange" value="{{noIndex}}" range="{{range}}">
+      <view class="centerText">{{range[noIndex]}}</view>
+    </picker>
+    <view class="addCategory" bindtap="openAddCategory">添加分类</view>
+  </view>
+  <view class="modal" wx:if="{{openAddCategory}}">
+    <view class="addCategoryContainer">
+      <view class="formItem">
+        <view class="formLabel">分类名称</view>
+        <input class="formInput" placeholder="请填写分类名称" bindinput="handleAddCategoryInput" />
+      </view>
+      <view>
+        <view class="modalBotton bottonOk" bindtap="saveAddCategory">保存</view>
+        <view class="modalBotton" bindtap="cancelAddCategory">取消</view>
+      </view>
+    </view>
+  </view>
+  <view class="formItem">
+    <view class="formLabel">名称</view>
+    <input class="formInput" bindinput="handleNameInput" placeholder="rss源名称（不填写则自动获取）" />
+  </view>
+  <view class="formItem">
+    <view class="formLabel">URL</view>
+    <input class="formInput" bindinput="handleOriginInput"  placeholder="rss源地址" />
+  </view>
+  <view class="okAdd" bindtap="handleAdd">确认添加</view>
+</view>

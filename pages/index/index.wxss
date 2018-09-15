@@ -1,0 +1,127 @@
+/**index.wxss**/
+
+.category {
+  height: 45px;
+  position: fixed;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 10px;
+  background: #ffffff;
+  border-bottom: 1px solid #f5f5f5;
+}
+.categoryItem {
+  margin-right: 10px;
+  padding: 0 16px;
+  border-radius: 3px;
+  height: 35px;
+  color: #a3a3a3;
+  background: #f2f2f2;
+  line-height: 35px;
+  font-size: 12px;
+  display: inline-block;
+}
+.categoryItemSelected {
+  color: #ffffff;
+  background: #d6ba8b;
+}
+.refresh {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  box-shadow: 0 0 3px #999;
+  z-index: 5;
+  width: 32px;
+  height: 32px;
+  background: rgb(255,255,255);
+  border-radius: 50%;
+}
+.refreshImage {
+  width: 100%;
+  height: 100%;
+}
+.list {
+  padding-top: 50px;
+}
+.dayTime {
+  padding: 10px;
+  font-size: 13px;
+  color: #000;
+  font-weight: bold;
+}
+.item {
+  position: relative;
+  padding-left: 46px;
+  min-height:20px;
+  margin-bottom: 5px;
+  padding-bottom: 20px;
+  padding-right: 10px;
+}
+.itemTime {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 20px;
+  z-index: 3;
+  font-size: 10px;
+  text-align: center;
+  color: #ccc;
+  background-color: #fff;
+}
+.itemLine {
+  position: absolute;
+  top: 0;
+  left: 22px;
+  width: 1px;
+  height: 100%;
+  z-index: 2;
+  background: #ccc;
+}
+.itemTitle {
+  font-size: 12px;
+  color: #333;
+  line-height: 20px;
+  padding-bottom: 10px;
+}
+.itemOrigin {
+  font-size: 10px;
+  text-align: right;
+  color: #bbb;
+  line-height: 20px;
+}
+
+.itemImgItem {
+  position: relative;
+  width: 32%;
+  padding-top: 32%;
+  background: #f5f5f5;
+  display: inline-block;
+  margin-right: 1%;
+}
+.itemImg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.nohover {
+  background-color: rgba(0, 0, 0, 0);
+}
+.noOrigin {
+  display: block;
+  text-align: center;
+  padding: 30px 0;
+  line-height: 20px;
+  margin: 10px;
+  margin-top: 55px;
+  font-size: 13px;
+  color: #99c;
+  background: #f2f2f2;
+  border-radius: 3px;
+  cursor: pointer;
+}
+

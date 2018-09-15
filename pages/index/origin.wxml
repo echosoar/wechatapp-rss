@@ -1,0 +1,27 @@
+<view class="left">
+  <view class="title">分类</view>
+  <scroll-view scroll-y class="category">
+    <view 
+      wx:for="{{collectList}}"
+      wx:key="listOrigin{{index}}"
+      class="{{index == nowCollectIndex ? 'categoryItem categoryItemSelected' : 'categoryItem'}}"
+      bindtap="collectTap"
+      data-index="{{index}}"
+      >
+      {{item.name}}
+    </view>
+  </scroll-view>
+</view>
+<view class="right">
+  <view class="title">当前分类下的源</view>
+  <view wx:for="{{list}}" wx:key="listOriginList{{index}}" class="originItem">
+    <view class="originTitle">{{item.title}}</view>
+    <view class="originDescription" wx:if="{{item.description && item.description != item.title}}">{{item.description}}</view>
+    <view class="originInfoItem">添加于 {{ item.addTimeStr }}</view>
+    <view class="originInfoItem originInfoItem2">更新于 {{ item.updateTimeStr }}</view>
+    <view class="originInfoItem">{{ item.list.length }} 篇内容</view>
+    <view class="originInfoItem originInfoItem2" data-originName="{{item.title}}" data-originId="{{item.id}}" bindtap="deleteOrigin">删除此来源</view>
+    
+  </view>
+  <navigator url="{{'/pages/index/add?category=' + nowCollectIndex}}" hover-class="nohover" class="addOrigin">点击去添加新的RSS源</navigator>
+</view>
