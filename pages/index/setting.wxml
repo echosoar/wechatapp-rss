@@ -1,0 +1,31 @@
+<view class="left">
+  <view class="title">设置</view>
+  <scroll-view scroll-y class="settingType">
+    <view 
+      wx:for="{{configList}}"
+      wx:key="settingType{{index}}"
+      class="{{index == nowCollectIndex ? 'settingTypeItem settingTypeItemSelected' : 'settingTypeItem'}}"
+      bindtap="collectTap"
+      data-index="{{index}}"
+      >
+      {{item.title}}
+    </view>
+  </scroll-view>
+</view>
+<view class="right">
+  <view 
+    wx:for="{{configList[nowCollectIndex].child}}"
+    wx:key="settingItem{{index}}"
+    class="settingItem"
+    >
+    <view wx:if="{{item.itemType == 'fontsize'}}">
+      <view style="font-size: {{config[item.key] || item.defaultValue}}px;line-height: 1.5;">{{item.title}}</view>
+      <view class='itemFontSizeChange'>
+        <image src="/static/jian.png" mode="aspectFit" class="itemDoingBtn jian" bindtap="fontSizeJian" data-key="{{item.key}}" data-now="{{config[item.key] || item.defaultValue}}" data-min="{{item.min}}"></image>
+        {{ config[item.key] || item.defaultValue }}
+        <image src="/static/jia.png" mode="aspectFit" class="itemDoingBtn jia" bindtap="fontSizeJia" data-key="{{item.key}}" data-now="{{config[item.key] || item.defaultValue}}" data-max="{{item.max}}"></image>
+      </view>
+    </view>
+    
+  </view>
+</view>

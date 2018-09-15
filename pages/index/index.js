@@ -4,27 +4,38 @@ const app = getApp();
 const collect = require('core/collect.js');
 const origin = require('core/origin.js');
 const update = require('core/update.js');
+const config = require('core/config.js');
 
 Page({
   data: {
     nowCollectIndex: 0,
     collectList: [],
     list: [],
+    config: {
+      titleSize: 12
+    },
     isLoading: false,
     loadingTop: false,
     loadingBottom: false
   },
   onLoad: function() {
-    this.loadData();
+    
   },
   onShow: function() {
-    this.loadData();
+    config.getConfig().then(config => {
+      this.setData({
+        config: Object.assign(this.data.config, config)
+      });
+    });
+    this.loadData({
+      notBackTop: true
+    });
   },
-  loadData() {
+  loadData(config) {
     collect.getCollectList().then(data => {
       this.setData({
         collectList: data
-      }, this.renderMain);
+      }, this.renderMain.bind(this, config));
     });
   },
   onPullDownRefresh() {
@@ -51,10 +62,10 @@ Page({
       }
     });
   },
-  renderMain() {
-    this.getCache();
+  renderMain(config) {
+    this.getCache(config);
   },
-  getCache() {
+  getCache(config) {
     let { collectList, nowCollectIndex } = this.data;
     let childOrigin = collectList[nowCollectIndex].childOrigin;
     if (!childOrigin || !childOrigin.length) {
@@ -66,6 +77,7 @@ Page({
         this.setData({
           list: data
         }, () => {
+          if (config && config.notBackTop) return;
           wx.pageScrollTo({
             scrollTop: 0
           });

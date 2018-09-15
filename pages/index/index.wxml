@@ -20,7 +20,7 @@
       <view class="itemTime">{{item.timeMap[3]}}:{{item.timeMap[4]}}</view>
       <view class="itemLine"></view>
       <navigator url="{{'/pages/index/read?origin=' + item.originId + '&oneId=' + item.oneId}}" hover-class="nohover">
-        <view class="itemTitle">{{ item.title || '暂无内容标题'}}</view>
+        <view class="itemTitle" style="font-size: {{config.titleSize}}px;line-height: 1.5;">{{ item.title || '暂无内容标题'}}</view>
       </navigator>
       
       <view class="itemImgList" wx:if="{{item.data.imgs.length}}">

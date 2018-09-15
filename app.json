@@ -6,7 +6,8 @@
     "pages/index/mine",
     "pages/logs/logs",
     "pages/index/read",
-    "pages/index/redirect"
+    "pages/index/redirect",
+    "pages/index/setting"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -30,6 +31,12 @@
         "text": "RSS源",
         "iconPath": "/static/rssUnselected.png",
         "selectedIconPath": "/static/rss.png"
+      },
+      {
+        "pagePath": "pages/index/setting",
+        "text": "设置",
+        "iconPath": "/static/settingUnselected.png",
+        "selectedIconPath": "/static/setting.png"
       }
     ]
   }
