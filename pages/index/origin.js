@@ -4,6 +4,8 @@ const origin = require('core/origin.js');
 const Time = require('core/time.js');
 Page({
   data: {
+    openedChangeCategoryName: false,
+    isAdd: false,
     nowCollectIndex: 0,
     collectList: [],
     list: []
@@ -14,11 +16,15 @@ Page({
   onShow: function () {
     this.loadData();
   },
-  loadData() {
+  loadData(index) {
     collect.getCollectList().then(data => {
-      this.setData({
+      let newData = {
         collectList: data
-      }, this.renderMain);
+      };
+      if (index != null && index >= 0) {
+        newData.nowCollectIndex = index;
+      }
+      this.setData(newData, this.renderMain);
     });
   },
   collectTap(e) {
@@ -59,6 +65,68 @@ Page({
           });
         });
       }
+    });
+  },
+
+  openChangeCategoryName() {
+    this.tmpCategoryName = '';
+    this.setData({
+      openedChangeCategoryName: true
+    });
+  },
+  closeChangeCategoryName() {
+    this.tmpCategoryName = '';
+    this.setData({
+      isAdd: false,
+      openedChangeCategoryName: false
+    });
+  },
+  saveChangeCategory: function () {
+    if (this.tmpCategoryName) {
+      if (this.data.isAdd) {
+        collect.add(this.tmpCategoryName).then(list => {
+          this.closeChangeCategoryName();
+          this.loadData();
+        });
+      } else {
+        collect.changeInfo(this.data.nowCollectIndex, 'name', this.tmpCategoryName).then(() => {
+          this.closeChangeCategoryName();
+          this.loadData();
+        }).catch(e => {
+          this.closeChangeCategoryName();
+        });
+      }
+    } else {
+      wx.showToast({
+        title: '请填写分类名称!',
+        icon: 'none',
+        duration: 1000
+      });
+    }
+  },
+  handleChangeCategoryInput: function (e) {
+    this.tmpCategoryName = e.detail.value;
+  },
+  deleteCategory() {
+    let { collectList, nowCollectIndex } = this.data;
+    let name = collectList[nowCollectIndex].name;
+    wx.showModal({
+      title: '真的要删除这个分类吗？',
+      content: name,
+      success: (res) => {
+        if (!res || !res.confirm) return;
+        collect.deleteCollect(this.data.nowCollectIndex).then(data => {
+          this.loadData(this.data.nowCollectIndex - 1);
+        });
+      }
+    });
+    
+  },
+  addCategory() {
+    this.tmpCategoryName = '';
+    this.setData({
+      isAdd: true,
+      openedChangeCategoryName: true
     });
   }
 })

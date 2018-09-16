@@ -10,6 +10,7 @@
       >
       {{item.name}}
     </view>
+    <view class="categoryItem" bindtap="addCategory">添加分类</view>
   </scroll-view>
 </view>
 <view class="right">
@@ -24,4 +25,19 @@
     
   </view>
   <navigator url="{{'/pages/index/add?category=' + nowCollectIndex}}" hover-class="nohover" class="addOrigin">点击去添加新的RSS源</navigator>
+  <view class="categoryDoing" bindtap="openChangeCategoryName">修改分类名称</view>
+  <view wx:if="{{collectList.length > 1}}" class="categoryDoing categoryDoing2" bindtap="deleteCategory">删除此分类</view>
+</view>
+
+<view class="modal" wx:if="{{openedChangeCategoryName}}">
+  <view class="changeCategoryContainer">
+    <view class="formItem">
+      <view class="formLabel">分类名称</view>
+      <input class="formInput" placeholder="请填写分类名称" bindinput="handleChangeCategoryInput" value="{{isAdd? '' : collectList[nowCollectIndex].name}}" />
+    </view>
+    <view>
+      <view class="modalBotton bottonOk" bindtap="saveChangeCategory">保存</view>
+      <view class="modalBotton" bindtap="closeChangeCategoryName">取消</view>
+    </view>
+  </view>
 </view>

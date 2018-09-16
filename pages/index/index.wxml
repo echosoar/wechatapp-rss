@@ -14,6 +14,10 @@
   <view class="refresh" wx:if="{{!isLoading && collectList[nowCollectIndex].childOrigin.length}}">
     <image src="/static/refresh.png" class="refreshImage" bindtap="refreshTap"></image>
   </view>
+  <view class="status" wx:if="{{isLoading}}">
+    <view class="status-updating">正在更新数据...</view>
+  </view>
+  <view class="topSpace"></view>
   <view wx:if="{{list.length}}" class="list" wx:for="{{list}}" wx:key="listHome{{index}}">
     <view class="dayTime">{{item.date[0]}}年{{item.date[1]}}月{{item.date[2]}}日</view>
     <view class="item" wx:for="{{item.child}}" wx:key="listHomeChild{{index}}">

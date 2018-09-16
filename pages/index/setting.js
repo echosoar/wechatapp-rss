@@ -37,6 +37,44 @@ Page({
             max: 72
           }
         ]
+      },
+      {
+        title: '获取数据',
+        child: [
+          {
+            title: '数据源更新间隔时长',
+            itemType: 'size',
+            key: 'UpdateTimeout',
+            defaultValue: 10,
+            unit: '秒',
+            min: 1,
+            max: 3600
+          },
+          {
+            title: '获取数据接口超时时长',
+            itemType: 'size',
+            key: 'getDataTimeout',
+            defaultValue: 60,
+            unit: '秒',
+            min: 1,
+            max: 300
+          }
+        ]
+      },
+      {
+        title: '缓存',
+        child: [
+          {
+            title: '单数据源消息最多存储数',
+            itemType: 'size',
+            key: 'MaxLength',
+            defaultValue: 300,
+            step: 10,
+            unit: '条',
+            min: 10,
+            max: 500
+          }
+        ]
       }
     ],
     config: {}
@@ -48,36 +86,43 @@ Page({
       });
     });
   },
-  fontSizeJian: function(e) {
-    let { key, now, min } = e.target.dataset;
+  collectTap(e) {
+    let index = e.currentTarget.dataset.index;
+    if (index == this.data.nowCollectIndex) return;
+    this.setData({
+      nowCollectIndex: index
+    })
+  },
+  sizeJian: function(e) {
+    let { key, now, min, step } = e.target.dataset;
 
     if (now <= min) {
       wx.showToast({
         icon: 'none',
-        title: '最小字体大小为 ' + min
+        title: '最小大小为 ' + min
       });
       return;
     }
     config.setConfig({
-      [key]: Math.round(now - 1)
+      [key]: Math.round(now - (step || 1))
     }).then(config => {
       this.setData({
         config
       });
     });
   },
-  fontSizeJia: function (e) {
-    let { key, now, max } = e.target.dataset;
+  sizeJia: function (e) {
+    let { key, now, max, step } = e.target.dataset;
 
     if (now >= max) {
       wx.showToast({
         icon: 'none',
-        title: '最大字体大小为 ' + max
+        title: '最大大小为 ' + max
       });
       return;
     }
     config.setConfig({
-      [key]: Math.round(now + 1)
+      [key]: Math.round(now + (step || 1))
     }).then(config => {
       this.setData({
         config

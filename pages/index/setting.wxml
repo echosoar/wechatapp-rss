@@ -21,9 +21,18 @@
     <view wx:if="{{item.itemType == 'fontsize'}}">
       <view style="font-size: {{config[item.key] || item.defaultValue}}px;line-height: 1.5;">{{item.title}}</view>
       <view class='itemFontSizeChange'>
-        <image src="/static/jian.png" mode="aspectFit" class="itemDoingBtn jian" bindtap="fontSizeJian" data-key="{{item.key}}" data-now="{{config[item.key] || item.defaultValue}}" data-min="{{item.min}}"></image>
-        {{ config[item.key] || item.defaultValue }}
-        <image src="/static/jia.png" mode="aspectFit" class="itemDoingBtn jia" bindtap="fontSizeJia" data-key="{{item.key}}" data-now="{{config[item.key] || item.defaultValue}}" data-max="{{item.max}}"></image>
+        <image src="/static/jian.png" mode="aspectFit" class="itemDoingBtn jian" bindtap="sizeJian" data-key="{{item.key}}" data-now="{{config[item.key] || item.defaultValue}}" data-min="{{item.min}}"></image>
+        {{ config[item.key] || item.defaultValue }} px
+        <image src="/static/jia.png" mode="aspectFit" class="itemDoingBtn jia" bindtap="sizeJia" data-key="{{item.key}}" data-now="{{config[item.key] || item.defaultValue}}" data-max="{{item.max}}"></image>
+      </view>
+    </view>
+
+    <view wx:if="{{item.itemType == 'size'}}">
+      <view class="itemTitle">{{item.title}}</view>
+      <view class='itemSizeChange'>
+        <image src="/static/jian.png" mode="aspectFit" class="itemDoingBtn jian" bindtap="sizeJian" data-key="{{item.key}}" data-now="{{config[item.key] || item.defaultValue}}" data-step="{{item.step}}" data-min="{{item.min}}"></image>
+        {{ config[item.key] || item.defaultValue }} {{ item.unit}}
+        <image src="/static/jia.png" mode="aspectFit" class="itemDoingBtn jia" bindtap="sizeJia" data-key="{{item.key}}" data-now="{{config[item.key] || item.defaultValue}}" data-step="{{item.step}}" data-max="{{item.max}}"></image>
       </view>
     </view>
     

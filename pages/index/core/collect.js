@@ -1,8 +1,10 @@
+const origin = require('./origin.js');
 const getCollectList = () => {
   return new Promise((resolve, reject )=> {
     wx.getStorage({
       key: 'collect',
       success: (data) => {
+        console.log(data)
         if (!data || !data.data || !data.data.length) {
           autoAddBottomCollect(resolve, reject);
         } else {
@@ -103,9 +105,56 @@ const removeOrigin = (collectId, originId) => {
   });
 }
 
+
+const changeInfo =  (collectId, key, value) => {
+  return new Promise((resolve, reject) => {
+    getCollectList().then(list => {
+      list[collectId][key] = value;
+      wx.setStorage({
+        key: 'collect',
+        data: list,
+        success: () => {
+          resolve(true);
+        },
+        fail: () => {
+          reject('修改分类失败 - collect');
+        }
+      });
+    }).catch(reject);
+  });
+}
+const deleteCollect = (id) => {
+  return new Promise((resolve, reject) => {
+    getCollectList().then(list => {
+      
+      let collect = list[id];
+
+      Promise.all(collect.childOrigin.map(originId => {
+        return origin.deleteOrigin(originId);
+      })).then(() => {
+        list.splice(id, 1);
+        wx.setStorage({
+          key: 'collect',
+          data: list,
+          success: () => {
+            resolve(list);
+          },
+          fail: () => {
+            reject('删除分类失败');
+          }
+        });
+      });
+    }).catch(e => {
+      reject('删除分类失败');
+    });
+  });
+}
+
 module.exports = {
     getCollectList,
     add,
+    deleteCollect,
+    changeInfo,
     addOrigin,
     removeOrigin
 }

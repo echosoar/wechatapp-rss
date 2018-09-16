@@ -1,55 +1,63 @@
 const Origin = require('./origin.js');
 const Get = require('./getData.js');
-// 每个来源最多存贮300条数据
-const MaxLength = 300;
-// 10s内只能更新一次
-const UpdateTimeout = 10000;
+const Config = require('./config.js');
 
 const updateById = id => {
   return new Promise((resolve) => {
-    Origin.getById(id).then(originInfo => {
-      let originLink = originInfo.originLink;
-      if (Date.now() - originInfo.updateTime < UpdateTimeout) {
-        resolve(0);
-        return;
-      }
-      if (!originLink) {
-        resolve(0);
-        return;
-      }
-      Get.getData(originLink).then(data => {
-        let dataItemIdPrefix = Date.now() + '-' + Math.random() + '-';
-        let newItems = (data.items || []).filter((item, index )=> {
-          if (originInfo.linkMap[item.link]) return false;
-          item.oneId = dataItemIdPrefix + index;
-          originInfo.linkMap[item.link || item.oneId] = true;
-          return true;
-        });
-
-        let updateSize = newItems.length;
-
-        if (updateSize) {
-          // 删除要删除的map
-          originInfo.list.slice(MaxLength - updateSize).map(item => {
-            delete originInfo.linkMap[item.link || item.oneId];
-          });
-          originInfo.list = newItems.concat(originInfo.list.slice(0, MaxLength - updateSize));
+    Config.getConfig().then(config => {
+      // 每个来源最多存贮300条数据
+      let MaxLength = config.MaxLength || 300;
+      // 10s内只能更新一次
+      let UpdateTimeout = (config.UpdateTimeout || 10) * 1000;
+      // 获取数据超时时间，默认3秒
+      let getDataTimeout = config.getDataTimeout || 3;
+      Origin.getById(id).then(originInfo => {
+        let originLink = originInfo.originLink;
+        if (Date.now() - originInfo.updateTime < UpdateTimeout) {
+          resolve(0);
+          return;
         }
-        
-        originInfo.updateTime = Date.now();
+        if (!originLink) {
+          resolve(0);
+          return;
+        }
+        Get.getData(originLink, getDataTimeout).then(data => {
+          let dataItemIdPrefix = Date.now() + '-' + Math.random() + '-';
+          let newItems = (data.items || []).filter((item, index) => {
+            let oneId = dataItemIdPrefix + index;
+            let mapKey = item.link || item.title || oneId;
+            if (originInfo.linkMap[mapKey]) return false;
+            item.oneId = oneId;
+            originInfo.linkMap[mapKey] = true;
+            return true;
+          });
 
-        Origin.updateOrigin(id, originInfo).then(() => {
-          resolve(updateSize);
-        }).catch(e => {
+          let updateSize = newItems.length;
+
+          if (updateSize) {
+            // 删除要删除的map
+            originInfo.list.slice(MaxLength - updateSize).map(item => {
+              delete originInfo.linkMap[item.link || item.oneId];
+            });
+            originInfo.list = newItems.concat(originInfo.list.slice(0, MaxLength - updateSize));
+          }
+
+          originInfo.updateTime = Date.now();
+
+          Origin.updateOrigin(id, originInfo).then(() => {
+            resolve(updateSize);
+          }).catch(e => {
+            resolve(0);
+          });
+
+        }).catch(() => {
           resolve(0);
         });
-        
-      }).catch(() => {
+      }).catch(e => {
         resolve(0);
       });
-    }).catch(e => {
-      resolve(0);
     });
+    
   });
 }
 
