@@ -1,0 +1,10 @@
+<view class="content">
+    <view wx:for="{{content.text}}" wx:for-item="para"  wx:key="contentTextList{{index}}">
+      <view wx:if="{{para.t == 'text'}}" class="content-text" style="font-size: {{config.contentTextSize}}px;line-height: 1.5;">{{para.value}}</view>
+      <image mode="widthFix" wx:if="{{para.t == 'image'}}" src="{{para.value.img }}" class="content-image" bindtap="viewImg" data-src="{{para.value.large || para.value.img}}"></image>
+    </view>
+    <image wx:for="{{content.imgs}}" wx:key="contentImg{{index}}" wx:for-item="para" mode="widthFix" src="{{para.img }}" class="content-image" bindtap="viewImg" data-src="{{para.large || para.img}}"></image>
+    <view wx:for="{{content.links}}" class="link">
+      {{item.text}}
+    </view>
+  </view>

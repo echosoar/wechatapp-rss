@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "阅读"
+  "navigationBarTitleText": "阅读",
+  "usingComponents": {
+    "Content": "/pages/index/components/content"
+  }
 }

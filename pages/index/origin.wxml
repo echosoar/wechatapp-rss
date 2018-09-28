@@ -21,14 +21,19 @@
     <view class="originInfoItem">添加于 {{ item.addTimeStr }}</view>
     <view class="originInfoItem originInfoItem2">更新于 {{ item.updateTimeStr }}</view>
     <view class="originInfoItem">{{ item.list.length }} 篇内容</view>
+    <view class="originInfoItem originInfoItem2" data-link="{{item.originLink}}" bindtap="copyOrigin">复制来源地址</view>
+    <view class="originInfoItem" data-originName="{{item.title}}" data-originId="{{item.id}}" bindtap="clearCache">清除缓存</view>
     <view class="originInfoItem originInfoItem2" data-originName="{{item.title}}" data-originId="{{item.id}}" bindtap="deleteOrigin">删除此来源</view>
     
   </view>
   <navigator url="{{'/pages/index/add?category=' + nowCollectIndex}}" hover-class="nohover" class="addOrigin">点击去添加新的RSS源</navigator>
-  <view class="categoryDoing" bindtap="openChangeCategoryName">修改分类名称</view>
-  <view wx:if="{{collectList.length > 1}}" class="categoryDoing categoryDoing2" bindtap="deleteCategory">删除此分类</view>
+  <view>
+    <view class="categoryDoingx" bindtap="openChangeCategoryName">修改分类名称</view>
+    <view wx:if="{{collectList.length > 1}}" class="categoryDoingx" bindtap="deleteCategory">删除此分类</view>
+    <view class="categoryDoingx" wx:if="{{nowCollectIndex!=0}}" bindtap="categorySortTop">上移分类</view>
+    <view class="categoryDoingx" wx:if="{{nowCollectIndex!=collectList.length -1}}" bindtap="categorySortBottom">下移分类</view>
+  </view>
 </view>
-
 <view class="modal" wx:if="{{openedChangeCategoryName}}">
   <view class="changeCategoryContainer">
     <view class="formItem">

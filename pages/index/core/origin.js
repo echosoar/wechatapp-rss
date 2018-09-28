@@ -54,17 +54,28 @@ const add = originInfo => {
   })
 }
 
-const getById = id => {
+const getById = (id, page, length) => {
+  let isSlice = true;
+  if (!page || !length) isSlice = false;
   return new Promise((resolve, reject) => {
     getOrigin().then(origin => {
-      resolve(origin[id] || {});
+      let data = origin[id] || {};
+      let start = ((page || 1) - 1) * length;
+      if (data.list && isSlice) data.list = data.list.slice(start, start + length);
+      resolve(data);
     }).catch(reject);
   });
 }
 
-const getByIds = ids => {
+const size = 30;
+
+const getByIds = (ids, page) => {
+  page = page || 1;
+  let everyOriginLength = Math.ceil(size / (ids.length || 1));
+  if (everyOriginLength > size) everyOriginLength = size;
+  if (everyOriginLength < 5) everyOriginLength = 5;
   return Promise.all(ids.map(id => {
-    return getById(id);
+    return getById(id, page, everyOriginLength);
   })).then(data => {
     let result = [];
     let resultMap = {};
@@ -165,6 +176,39 @@ const updateOrigin = (id, newData) => {
   });
 }
 
+const clearCacheById = (id) => {
+  return new Promise((resolve, reject) => {
+    getOrigin().then(origin => {
+      
+      origin[id].linkMap = {};
+      origin[id].list = [];
+
+      wx.setStorage({
+        key: 'origin',
+        data: origin,
+        success: () => {
+          resolve(id);
+        },
+        fail: () => {
+          reject('清楚失败');
+        }
+      })
+    }).catch(reject);
+  });
+}
+
+const getAllOriginCacheSize = () => {
+  return new Promise((resolve, reject) => {
+    getOrigin().then(origin => {
+      let sum = 0;
+      Object.keys(origin).map(key => {
+        sum += origin[key].list.length;
+      });
+      resolve(sum);
+    }).catch(reject);
+  });
+}
+
 module.exports = {
   getOrigin,
   add,
@@ -173,5 +217,7 @@ module.exports = {
   getById,
   getByIds,
   getArticleById,
-  getByIdsOnlyInfo
+  getByIdsOnlyInfo,
+  clearCacheById,
+  getAllOriginCacheSize
 }

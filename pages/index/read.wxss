@@ -13,6 +13,7 @@
 .info {
   font-size: 10px;
   color: #999;
+  margin: 10px 0;
   line-height: 20px;
   white-space: nowrap;
   height: 20px;
@@ -20,17 +21,3 @@
   overflow: hidden;
 }
 
-.content-text {
-  font-size: 13px;
-  line-height: 20px;
-  color: #333;
-  margin-bottom: 16px;
-  word-break: break-all;
-}
-
-.content-image {
-  display: block;
-  margin: 0 auto;
-  max-width: 100%;
-  margin-bottom: 16px;
-}

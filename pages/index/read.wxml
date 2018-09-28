@@ -1,11 +1,8 @@
 <view class="article">
   <view class="title" style="font-size: {{config.contentTitleSize}}px;line-height: 1.5;">{{ item.title }}</view>
   <view class="info">{{item.timeMap[1]}}/{{item.timeMap[2]}} {{item.timeMap[3]}}:{{item.timeMap[4]}} {{item.origin}}</view>
-  <view class="content">
-    <view wx:for="{{item.data.text}}" wx:for-item="para"  wx:key="readParaList{{index}}">
-      <view wx:if="{{para.t == 'text'}}" class="content-text" style="font-size: {{config.contentTextSize}}px;line-height: 1.5;">{{para.value}}</view>
-      <image mode="widthFix" wx:if="{{para.t == 'image'}}" src="{{para.value.img }}" class="content-image" bindtap="viewImg" data-src="{{para.value.large || para.value.img}}"></image>
+  <Content content="{{item.data}}" config="{{config}}" />
+  <view wx:for="{{item.data.childs}}" wx:for-item="child" wx:key="contentChild{{index}}">
+      <Content content="{{child}}" config="{{config}}" />
     </view>
-    <image wx:for="{{item.data.imgs}}" wx:key="readImgList{{index}}" wx:for-item="para" mode="widthFix" src="{{para.img }}" class="content-image" bindtap="viewImg" data-src="{{para.large || para.img}}"></image>
-  </view>
 </view>

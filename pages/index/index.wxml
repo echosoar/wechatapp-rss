@@ -28,7 +28,7 @@
       </navigator>
       
       <view class="itemImgList" wx:if="{{item.data.imgs.length}}">
-        <view class="itemImgItem" wx:for="{{[1, 2, 3]}}" wx:for-item="i" wx:key="listHomeChildImg{{i}}" wx:if="{{item.data.imgs[i]}}">
+        <view class="itemImgItem" wx:for="{{[0, 1, 2]}}" wx:for-item="i" wx:key="listHomeChildImg{{i}}" wx:if="{{item.data.imgs[i]}}">
           <image mode="aspectFill" src="{{item.data.imgs[i].img}}" class="itemImg" bindtap="viewImg" data-src="{{item.data.imgs[i].large || item.data.imgs[i].img}}" data-imgs="{{item.data.imgs}}"></image>
         </view>
       </view>

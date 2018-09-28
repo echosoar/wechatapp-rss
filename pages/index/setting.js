@@ -1,5 +1,5 @@
 // pages/index/setting.js
-
+const origin = require('core/origin.js');
 const config = require('core/config.js');
 Page({
 
@@ -73,16 +73,35 @@ Page({
             unit: '条',
             min: 10,
             max: 500
+          },
+          {
+            itemType: 'btn',
+            btnName: 'clearCache',
+            preFix: '清理共 ',
+            valueKey: 'cacheTotalSize',
+            endFix: ' 条缓存'
           }
         ]
       }
     ],
-    config: {}
+    config: {},
+    data: {}
   },
-  onLoad: function (options) {
+  onShow: function (options) {
+    this.getConfig();
+
+  },
+  getConfig() {
     config.getConfig().then(config => {
       this.setData({
         config
+      });
+    });
+
+    origin.getAllOriginCacheSize().then(size => {
+      let newData = Object.assign(this.data.data, { cacheTotalSize: size });
+      this.setData({
+        data: newData
       });
     });
   },
@@ -128,5 +147,8 @@ Page({
         config
       });
     });
+  },
+  btnClick: function(e) {
+
   }
 })

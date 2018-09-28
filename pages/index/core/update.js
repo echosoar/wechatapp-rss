@@ -12,6 +12,7 @@ const updateById = id => {
       // 获取数据超时时间，默认3秒
       let getDataTimeout = config.getDataTimeout || 3;
       Origin.getById(id).then(originInfo => {
+
         let originLink = originInfo.originLink;
         if (Date.now() - originInfo.updateTime < UpdateTimeout) {
           resolve(0);

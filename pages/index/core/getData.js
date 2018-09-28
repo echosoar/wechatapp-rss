@@ -2,12 +2,14 @@
 const getData = (url, timeout) => {
   if (!/^(\/\/|http)/.test(url)) url = 'https://' + url;
   if (/^\/\//.test(url)) url = 'https:' + url;
-  if (!/https:\/\/feed\.iam\.gy/.test(url)) {
-    url = 'https://feed.iam.gy/oth/?url=' + url;
-  } else if (!/type=json/.test(url)) {
+  if (/https:\/\/feed\.iam\.gy/.test(url)) {
+    url = url.replace('https://feed.iam.gy/', 'https://f.iam.gy/');
+  }
+  if (!/https:\/\/f\.iam\.gy/.test(url)) {
+    url = 'https://f.iam.gy/oth/?url=' + url;
+  } else if (!/type=/.test(url)) {
     url = url + '?type=json';
   }
-  console.log(url, timeout);
   return new Promise((resolve, reject) => {
     timeout = timeout || 60;
     let isBack = false;

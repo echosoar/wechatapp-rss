@@ -1,0 +1,39 @@
+.content-text {
+  font-size: 13px;
+  line-height: 20px;
+  color: #333;
+  margin-bottom: 20px;
+  word-break: break-all;
+}
+
+.content-image {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+.link {
+  position: relative;
+  border-radius: 3px;
+  padding: 10px;
+  padding-right: 80px;
+  overflow: hidden;
+  background: rgb(132, 170, 228);
+  color: #fff;
+  font-size: 13px;
+  line-height: 24px;
+  word-break: break-all;
+  margin-bottom: 10px;
+}
+
+.link::before {
+  content: '复制链接';
+  position: absolute;
+  top: 0;
+  right: 0px;
+  width: 80px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 44px;
+  color: rgba(255,255,255,.8);
+}

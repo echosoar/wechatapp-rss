@@ -96,3 +96,14 @@
   color: #333;
   line-height: 24px;
 }
+
+.itemBtn {
+  height: 42px;
+  box-sizing: border-box;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 13px;
+}

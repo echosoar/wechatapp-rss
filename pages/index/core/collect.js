@@ -4,7 +4,6 @@ const getCollectList = () => {
     wx.getStorage({
       key: 'collect',
       success: (data) => {
-        console.log(data)
         if (!data || !data.data || !data.data.length) {
           autoAddBottomCollect(resolve, reject);
         } else {
@@ -149,11 +148,34 @@ const deleteCollect = (id) => {
     });
   });
 }
+const moveCategory = (index, newIndex) => {
+  console.log(index, newIndex)
+  return new Promise((resolve, reject) => {
+    getCollectList().then(list => {
+      let nowCollect = list[index];
+      list.splice(index, 1);
+      list.splice(newIndex, 0, nowCollect);
+      wx.setStorage({
+        key: 'collect',
+        data: list,
+        success: () => {
+          resolve(list);
+        },
+        fail: () => {
+          reject('移动分类失败');
+        }
+      });
+    }).catch(e => {
+      reject('移动分类失败');
+    });
+  });
+}
 
 module.exports = {
     getCollectList,
     add,
     deleteCollect,
+    moveCategory,
     changeInfo,
     addOrigin,
     removeOrigin

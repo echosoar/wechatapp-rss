@@ -14,6 +14,8 @@ Page({
     config: {
       titleSize: 12
     },
+    noMore: false,
+    nowPage: 1,
     isLoading: false,
     loadingTop: false,
     loadingBottom: false
@@ -31,9 +33,19 @@ Page({
       notBackTop: true
     });
   },
+  onReachBottom: function() {
+    if (this.data.isLoading || this.data.noMore) return;
+
+    this.setData({
+      isLoading: true,
+      nowPage: this.data.nowPage + 1
+    }, this.getCache.bind(this, { notBackTop: true }));
+  },
   loadData(config) {
     collect.getCollectList().then(data => {
       this.setData({
+        noMore: false,
+        nowPage: 1,
         collectList: data
       }, this.renderMain.bind(this, config));
     });
@@ -49,16 +61,22 @@ Page({
       isLoading: true
     });
     update.update(childOrigin).then(updateCount => {
-      this.setData({
-        isLoading: false
-      });
+      
       wx.stopPullDownRefresh();
       wx.showToast({
         icon: 'none',
         title: updateCount ? `更新${updateCount}条新内容` : (childOrigin.length + '个来源暂无新内容'),
       });
       if (updateCount) {
-        this.loadData();
+        this.setData({
+          isLoading: false,
+          nowPage: 1,
+          noMore: false
+        }, this.loadData.bind(this));
+      } else {
+        this.setData({
+          isLoading: false
+        });
       }
     });
   },
@@ -73,9 +91,14 @@ Page({
         list: []
       });
     } else {
-      origin.getByIds(childOrigin).then(data => {
+      origin.getByIds(childOrigin, this.data.nowPage).then(data => {
+
+        let newData = data;
+        if (this.data.nowPage > 1) newData = this.data.list.concat(data);
         this.setData({
-          list: data
+          isLoading: false,
+          list: newData,
+          noMore: data.length == 0
         }, () => {
           if (config && config.notBackTop) return;
           wx.pageScrollTo({
@@ -92,7 +115,9 @@ Page({
     let index = e.currentTarget.dataset.index;
     if (index == this.data.nowCollectIndex) return;
     this.setData({
-      nowCollectIndex: index
+      nowCollectIndex: index,
+      nowPage: 1,
+      noMore: false
     }, this.getCache)
   },
   viewImg(e) {

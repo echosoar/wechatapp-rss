@@ -128,5 +128,45 @@ Page({
       isAdd: true,
       openedChangeCategoryName: true
     });
+  },
+  copyOrigin(e) {
+    wx.setClipboardData({
+      data: e.target.dataset.link,
+      success: function (res) {
+        wx.showToast({
+          title: '链接复制成功!',
+          icon: 'none',
+          duration: 1000
+        });
+      }
+    });
+  },
+  clearCache(e) {
+    
+    wx.showModal({
+      title: '真的要清理这个来源的缓存吗？',
+      success: (res) => {
+        if (!res || !res.confirm) return;
+        origin.clearCacheById(e.target.dataset.originid).then(data => {
+          this.loadData(this.data.nowCollectIndex);
+        });
+      }
+    });
+  },
+  categorySortTop() {
+    let { nowCollectIndex } = this.data;
+    if (nowCollectIndex > 0) {
+      collect.moveCategory(nowCollectIndex, nowCollectIndex - 1).then(() => {
+        this.loadData(nowCollectIndex - 1);
+      });
+    }
+  },
+  categorySortBottom() {
+    let { nowCollectIndex, collectList } = this.data;
+    if (nowCollectIndex < collectList.length - 1) {
+      collect.moveCategory(nowCollectIndex, nowCollectIndex + 1).then(() => {
+        this.loadData(nowCollectIndex + 1);
+      });
+    }
   }
 })
